@@ -98,6 +98,7 @@ $(document).ready(function(){
     $('.copy-field').on('click', copyField);
     $('.edit-field').on('click', editField);
     $('.remove-field').on('click', removeField);
+    $('textarea').autosize();
 
 /**********************************
  * @todo Stuff moveable to a lists class
@@ -109,7 +110,11 @@ $(document).ready(function(){
     }
 
     function setStoredLists(lists) {
+        var curList = getStoredLists();
         window.localStorage.setItem('lists', JSON.stringify(lists));
+        if (JSON.stringify(lists) !== JSON.stringify(curList)) {
+            window.document.reload()
+        }
     }
 
     function loadLists() {
