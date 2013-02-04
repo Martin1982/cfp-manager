@@ -58,14 +58,14 @@ $(document).ready(function(){
 
     function editField(e) {
         var field = $(e.currentTarget).parent().parent(),
-            oldFieldLabel = field.find('.label').text(),
+            oldFieldLabel = field.find('h4').text(),
             oldFieldValue = field.find('textarea').text(),
             newFieldLabel = window.prompt('New label', oldFieldLabel),
             newFieldValue = window.prompt('New value', oldFieldValue),
             storedFields = getStoredFields(),
             replaceableIndex = findIndexByLabel(storedFields, oldFieldLabel);
 
-        field.find('.label').text(newFieldLabel);
+        field.find('h4').text(newFieldLabel);
         field.find('textarea').text(newFieldValue);
 
         if (replaceableIndex !== null) {
