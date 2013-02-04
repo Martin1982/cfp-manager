@@ -113,7 +113,7 @@ $(document).ready(function(){
         var curList = getStoredLists();
         window.localStorage.setItem('lists', JSON.stringify(lists));
         if (JSON.stringify(lists) !== JSON.stringify(curList)) {
-            window.document.reload()
+            window.location.reload()
         }
     }
 
