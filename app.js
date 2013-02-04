@@ -1,10 +1,9 @@
+/*global $:false, window:false */
 $(document).ready(function(){
-
+    "use strict";
 /**********************************
  * @todo Stuff moveable to a field class
  *********************************/
-
-
     function getStoredFields() {
         return JSON.parse(window.localStorage.getItem('fields')) || [];
     }
@@ -35,8 +34,8 @@ $(document).ready(function(){
     }
 
     function newField() {
-        var label = prompt('Field name:'),
-            value = prompt('Field value:'),
+        var label = window.prompt('Field name:'),
+            value = window.prompt('Field value:'),
             storedFields = getStoredFields();
 
         storedFields.push({
@@ -53,16 +52,16 @@ $(document).ready(function(){
         $(field).appendTo('#copyables');
     }
 
-    function copyField() {
-        $(this).select();
+    function copyField(e) {
+        $(e.currentTarget).select();
     }
 
-    function editField() {
-        var field = $(this).parent().parent(),
+    function editField(e) {
+        var field = $(e.currentTarget).parent().parent(),
             oldFieldLabel = field.find('.label').text(),
             oldFieldValue = field.find('textarea').text(),
-            newFieldLabel = prompt('New label', oldFieldLabel),
-            newFieldValue = prompt('New value', oldFieldValue),
+            newFieldLabel = window.prompt('New label', oldFieldLabel),
+            newFieldValue = window.prompt('New value', oldFieldValue),
             storedFields = getStoredFields(),
             replaceableIndex = findIndexByLabel(storedFields, oldFieldLabel);
 
@@ -79,9 +78,9 @@ $(document).ready(function(){
         }
     }
 
-    function removeField() {
-        var field = $(this).parent().parent(),
-            label = field.find('.label').text(),
+    function removeField(e) {
+        var field = $(e.currentTarget).parent().parent(),
+            label = field.find('h4').text(),
             storedFields = getStoredFields(),
             deleteableIndex = findIndexByLabel(storedFields, label);
 
@@ -94,7 +93,7 @@ $(document).ready(function(){
 
     loadFields();
 
-    $('#copyables .add-field').on('click', newField);
+    $('.add-field').on('click', newField);
     $('.copy-field').on('click', copyField);
     $('.edit-field').on('click', editField);
     $('.remove-field').on('click', removeField);
@@ -113,7 +112,7 @@ $(document).ready(function(){
         var curList = getStoredLists();
         window.localStorage.setItem('lists', JSON.stringify(lists));
         if (JSON.stringify(lists) !== JSON.stringify(curList)) {
-            window.location.reload()
+            window.location.reload();
         }
     }
 
@@ -231,8 +230,8 @@ $(document).ready(function(){
         return [];
     }
 
-    function showDetails() {
-        var urlKey = $(this).attr('data-url'),
+    function showDetails(e) {
+        var urlKey = $(e.currentTarget).attr('data-url'),
             item = findItemByCallUrl(urlKey),
             itemData = item[1];
 
@@ -247,15 +246,14 @@ $(document).ready(function(){
         $('#myModal').modal();
     }
 
-    function setCallStatus () {
-        var clickedBtn = $(this),
-            callStatus = clickedBtn.attr('data-status'),
+    function setCallStatus (e) {
+        var clickedBtn = $(e.currentTarget),
             callUrl = clickedBtn.parent().attr('data-call-url'),
             item = findItemByCallUrl(callUrl),
             storedList = getStoredLists();
 
-        item[1].status = callStatus;
-        storedList[parseInt(item[0])] = item[1];
+        item[1].status = clickedBtn.attr('data-status');
+        storedList[parseInt(item[0], 10)] = item[1];
         setStoredLists(storedList);
         window.location.reload();
     }
