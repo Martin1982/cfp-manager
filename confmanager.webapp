@@ -1,0 +1,13 @@
+{
+  "name": "CFP Manager",
+  "description": "Easily manage your CFP submissions",
+  "launch_path": "/",
+  "icons": {
+    "128": "/img/icon-128.png"
+  },
+  "developer": {
+    "name": "Martin de Keijzer",
+    "url": "http://martindekeijzer.nl"
+  },
+  "default_locale": "en"
+}

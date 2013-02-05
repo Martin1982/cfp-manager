@@ -1,0 +1,17 @@
+CACHE MANIFEST
+# v.050220131142
+
+CACHE:
+css/confmanager.css
+img/glyphicons-halflings-white.png
+img/glyphicons-halflings.png
+lib/bootstrap.min.js
+lib/date.js
+lib/jquery-1.9.0.js
+lib/jquery.autosize-min.js
+app.js
+confmanager.webapp
+index.html
+
+NETWORK:
+proxy.php
