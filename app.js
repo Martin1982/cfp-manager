@@ -112,7 +112,7 @@ $(document).ready(function(){
         var curList = getStoredLists();
         window.localStorage.setItem('lists', JSON.stringify(lists));
         if (JSON.stringify(lists) !== JSON.stringify(curList)) {
-            window.location.reload();
+            //window.location.reload();
         }
     }
 
@@ -131,7 +131,7 @@ $(document).ready(function(){
             listItem = list[i];
             renderItem = '<li><a href="#" data-url="' + listItem.callUrl + '">' + listItem.eventName + '</a></li>';
 
-            closeDate = Date.parse(listItem.callClose.replace('Call closes on ', ''));
+            closeDate = Date.parse(listItem.callClose);
             if (closeDate > Date.today()) {
                 switch (listItem.status) {
                     case 'undecided':
@@ -173,6 +173,16 @@ $(document).ready(function(){
         setStoredLists(currentList);
     }
 
+    function formatEventDate(dateString) {
+        dateString = dateString.replace(' on ', '');
+        dateString = dateString.replace(' in \n', '');
+        return dateString;
+    }
+
+    function formatCallCloseDate(dateString) {
+        return dateString.replace('Call closes on ', '');
+    }
+
     function syncLanyrdPage(page) {
         $.ajax({
             url: 'proxy.php?page=' + page
@@ -183,10 +193,10 @@ $(document).ready(function(){
             lanyrdList.each(function(){
                 var data = {
                     callType: $(this).find('p strong a').text(),
-                    callClose: $(this).find('p:last').text(),
+                    callClose: formatCallCloseDate($(this).find('p:last').text()),
                     callUrl: $(this).find('p strong a').attr('href'),
                     eventName: $($(this).find('a')[1]).text(),
-                    eventDate: $($(this).find('p:first').contents()[3]).text(),
+                    eventDate: formatEventDate($($(this).find('p:first').contents()[3]).text()),
                     eventCity: $($(this).find('a')[2]).text(),
                     eventCountry: $($(this).find('a')[3]).text(),
                     status: 'undecided'
