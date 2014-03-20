@@ -10,6 +10,7 @@ $(document).ready(function(){
 
     function setStoredFields(fields) {
         window.localStorage.setItem('fields', JSON.stringify(fields));
+        postServer();
     }
 
     function findIndexByLabel(fields, label) {
@@ -111,6 +112,7 @@ $(document).ready(function(){
     function setStoredLists(lists) {
         var curList = getStoredLists();
         window.localStorage.setItem('lists', JSON.stringify(lists));
+        postServer();
         if (JSON.stringify(lists) !== JSON.stringify(curList)) {
             //window.location.reload();
         }
@@ -268,9 +270,33 @@ $(document).ready(function(){
         window.location.reload();
     }
 
+    function postServer() {
+        $.ajax({
+            url: 'server-sync.php',
+            type: 'POST',
+            data: {
+                fields: JSON.stringify(getStoredFields()),
+                lists: JSON.stringify(getStoredLists())
+            }
+        }).done(handleServerData);
+    }
+
+    function getServer() {
+        $.ajax({
+            url: 'server-sync.php'
+        }).done(handleServerData);
+    }
+
+    function handleServerData(output) {
+        var fields = JSON.parse(output).fields,
+            lists = JSON.parse(output).lists;
+        window.localStorage.setItem('lists', fields);
+        window.localStorage.setItem('lists', lists);
+    }
 
     loadLists();
     syncLanyrd();
+    getServer();
 
     $('li a').on('click', showDetails);
     $('.modal-footer button').on('click', setCallStatus);

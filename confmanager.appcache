@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v.060220131704
+# v.200320141036
 
 CACHE:
 css/confmanager.css
@@ -15,3 +15,4 @@ index.html
 
 NETWORK:
 proxy.php
+server-sync.php
